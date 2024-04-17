@@ -9,16 +9,22 @@
 		"lint": "eslint . --max-warnings 0"
 	},
 	"dependencies": {
-		"@repo/ui": "*",
 		"@repo/db": "*",
+		"@repo/ui": "*",
+		"axios": "^1.6.8",
+		"bcryptjs": "^2.4.3",
 		"next": "^14.1.1",
+		"next-auth": "^4.24.7",
 		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react-dom": "^18.2.0",
+		"recoil": "^0.7.7",
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@next/eslint-plugin-next": "^14.1.1",
 		"@repo/eslint-config": "*",
 		"@repo/typescript-config": "*",
+		"@types/bcrypt": "^5.0.2",
 		"@types/eslint": "^8.56.5",
 		"@types/node": "^20.11.24",
 		"@types/react": "^18.2.61",
