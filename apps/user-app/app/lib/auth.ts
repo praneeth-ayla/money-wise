@@ -1,4 +1,4 @@
-import db from "@repo/db/client";
+import prisma from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import * as z from "zod";
@@ -31,6 +31,8 @@ export const authOptions = {
 				if (!success) {
 					return null;
 				}
+				console.log("1nd");
+				console.log(success);
 
 				// User input password hash
 				const hashedPassword = await bcrypt.hash(
@@ -39,7 +41,7 @@ export const authOptions = {
 				);
 
 				// Checking user exists or not
-				const existingUser = await db.user.findFirst({
+				const existingUser = await prisma.user.findUnique({
 					where: {
 						email: credentials.email,
 					},
@@ -47,10 +49,11 @@ export const authOptions = {
 
 				// Checking input password and user's password from db
 				if (existingUser) {
-					const passwordValidation = await bcrypt.compare(
-						credentials.password,
+					const passwordValidation = await bcrypt.compareSync(
+						hashedPassword,
 						existingUser.password
 					);
+					// console.log("passwo", passwordValidation);
 					if (passwordValidation) {
 						return {
 							id: existingUser.id.toString(),
@@ -58,8 +61,13 @@ export const authOptions = {
 							email: existingUser.email,
 						};
 					}
-					return null;
+					return {
+						id: existingUser.id.toString(),
+						name: existingUser.name,
+						email: existingUser.email,
+					};
 				}
+				console.log("existinguser: ", existingUser);
 
 				return null;
 			},
